@@ -52,7 +52,7 @@
 
 \begin{frame}{Domains}
     \begin{itemize}
-        \item STRIPS
+        \item STRIPS, action costs, types, negative preconditions
         \item Training: $\sim$99 ``easy'' instances
         \item Testing: 30 easy, 30 medium and 30 hard instances
     \end{itemize}
@@ -244,6 +244,46 @@
         \end{itemize}
     \end{itemize}
 
+\end{frame}
+
+\begin{frame}{Setup}
+    \begin{itemize}
+        \item all computations done by organizers
+        \item only bugfixes allowed after submission deadline
+        \item submission two Apptainer files
+    \end{itemize}
+
+    \begin{block}{Learning}
+        ./learn dk DOMAIN TASK1 TASK2 TASK3 ...
+    \end{block}
+
+    produces files \texttt{dk.1}, \texttt{dk.2}, etc.
+
+    \begin{exampleblock}{Planning}
+        ./plan dk.5 DOMAIN TASK plan
+    \end{exampleblock}
+
+    finds plans \texttt{plan.1}, \texttt{plan.2}, etc.
+\end{frame}
+
+\begin{frame}{Environment}
+    Single-Core
+    \begin{itemize}
+        \item 1 CPU core (from an Intel Xeon Gold 6130 CPU), no GPU
+        \item Limits \alert{training} per domain: 24 hours, 32 GiB
+        \item Limits \alert{evaluation} per task: 30 minutes, 8 GiB
+    \end{itemize}
+
+    \bigskip
+    Multi-Core canceled
+\end{frame}
+
+\begin{frame}{Metrics}
+    \begin{itemize}
+        \item Quality score: C*/C
+        \item Bounds C* obtained with domain-specific solvers, IPC planners, LAMA (8h, 32 GiB)
+        \item Agile score: 1 - log(T)/log(300)
+    \end{itemize}
 \end{frame}
 
 \section{Submissions}
