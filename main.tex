@@ -22,8 +22,8 @@
 \usetikzlibrary{arrows,automata,shapes}
 \newcommand{\tup}[1]{{\langle #1 \rangle}}
 \usepackage{multirow}
-\usepackage{minted}
-\usepackage{svg}
+%\usepackage{minted}
+%\usepackage{svg}
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -240,8 +240,62 @@
 
 \end{frame}
 
-\section{Participants}
+\section{Submissions}
 
+\begin{frame}{Baselines}
+\begin{itemize}
+\item
+    \textbf{Fast Downward SMAC 2014}\\
+    \emph{Jendrik Seipp, Silvan Sievers, Frank Hutter}\\
+    Single Fast Downward
+    configuration, optimized with SMAC for training tasks.
+\item
+    \textbf{Progressive Generalized Planner}\\
+    \emph{Javier
+    Segovia-Aguas, Sergio Jiménez, Laura Sebastiá, Anders Jonsson}\\
+    Fixed configuration of PGP for the given training tasks.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Participants 1/2}
+\begin{itemize}
+\item
+    \textbf{ASNets 2023}\\
+    \emph{Mingyu Hao, Ryan Wang, Sam Toyer, Felipe Trevizan, Sylvie
+    Thiébaux, Lexing Xie}\\
+    Action Schema Networks implemented in Tensorflow 2.
+\item
+    \textbf{GOFAI}\\
+    \emph{Alvaro Torralba, Daniel Gnad}\\
+    Good Old-Fashioned AI that learns
+    how to partially ground tasks from a given domain.
+\item
+    \textbf{HUZAR}\\
+    \emph{Piotr Rafal Gzubicki, Bartosz Piotr Lachowicz, Alvaro Torralba}\\
+    Learn to distinguish between good and bad transitions by feeding
+    problem description graphs into a GNN.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Participants 2/2}
+\begin{itemize}
+\item
+    \textbf{Muninn}\\
+    \emph{Simon Ståhlberg, Blai Bonet, Hector Geffner}\\
+    Learn Relational MPNNs for STRIPS.
+\item
+    \textbf{Novelty-based Progressive Generalized Planner}\\
+    \emph{Chao Lei, Nir Lipovetzky, Krista A. Ehinger}\\
+    Novelty-based generalized planner that
+    prunes a newly generated planning program if its most frequent action
+    repetition is greater than a given bound.
+\item
+    \textbf{Vanir}\\
+    \emph{Dominik Drexler}\\
+    Learn width-based hierarchical policies for
+    polynomial domains.
+\end{itemize}
+\end{frame}
 
 
 \end{document}
