@@ -35,6 +35,8 @@
 
 \date{} % Date, can be changed to a custom date
 
+% time limit for presentation: 25m
+
 
 
 
@@ -53,8 +55,16 @@
 \begin{frame}{Domains}
     \begin{itemize}
         \item STRIPS, action costs, types, negative preconditions
-        \item Training: $\sim$99 ``easy'' instances
+        \item Training: $\sim$99 ``easy'' instances, out of which $\sim$10 handwritten base cases
         \item Testing: 30 easy, 30 medium and 30 hard instances
+        \item Experiments on instances:
+        \begin{itemize}
+            \item base cases can be fully expanded,
+            \item some easy cases are solvable with blind search,
+            \item many easy cases can be solved optimally with LMCUT,
+            \item most easy cases and many medium are solvable with LAMA
+        \end{itemize}
+        \item A plan is generated for each instance with a domain-dependent strategy, and validated with both the Unified Planning and the Universal Planning Validator frameworks.
     \end{itemize}
 \end{frame}
 
@@ -63,7 +73,13 @@
     \begin{itemize}
         \item \textbf{Description}: the task is to map an initial configuration of towers of $n$ blocks in total, into a goal configuration where block towers are arranged in a different order
         \item[]
-        \item \textbf{Hardness}: $2$-approximable
+        \item \textbf{Hardness}: $2$-approximable (Gupta and Nau, AAAI 1991)
+        \item[] 
+        \item \textbf{Strategy}: 
+        \begin{enumerate}
+            \item unstack all blocks (and the ones above) that are not in their goal location and put them down on the table,
+            \item pick and stack blocks as they appear in the goal
+        \end{enumerate}
         %\item \textbf{Required features}: goal lookups.
         \item[]
         \item \textbf{Parameter ranges}:
@@ -79,11 +95,19 @@
 \begin{frame}{Childsnack}
 
     \begin{itemize}
-        \item \textbf{Description}: $c$ children, $a$ allergic, $t$ trays, $s$ sandwiches % ToDo: add description
-        \item[]
-        \item \textbf{Hardness}: optimal
+        \item \textbf{Description}: there are up to $s$ sandwiches in a kitchen that can be made either with gluten or gluten-free ingredients. These sandwiches are delivered, on up to $t$ trays, to the $c$ children ($a$ are allergic to gluten) that are waiting to be served at the tables
+        %\item[]
+        \item \textbf{Hardness}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
-        \item[]
+        %\item[]
+        \item \textbf{Strategy}: 
+        \begin{enumerate}
+            \item make $c$ sandwiches, doing as many gluten-free as possible, and the rest with gluten,
+            \item put all $c$ sandwiches on one tray, and move that tray from the kitchen to the first table
+            \item for each child at the table, serve a sandwich with gluten if possible, otherwise serve a gluten-free sandwich
+            \item move the tray to the next table with children and repeat the previous step, until all children are served
+        \end{enumerate}
+        %\item[] 
         \item \textbf{Parameter ranges}:
         \begin{itemize}
             \item Easy: $c\in[4, 10]$, $a\in[0, 6]$, $t\in[1, 3]$, $s\in[4, 15]$
@@ -98,16 +122,22 @@
 \begin{frame}{Ferry}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
+        \item \textbf{Description}: there are $c$ cars randomly distributed into $l$ locations, and a ferry with capacity for $1$ car, must board cars from their origin and debark them into their corresponding goal location
         \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Hardness}: $2$-approximable % Ferry $\leq_p$ Miconic (Helmet \textit{et al.}, ECAI 2006)  % requires a proof
         %\item \textbf{Required Features}: ...
         \item[]
+        \item \textbf{Strategy}: 
+        \begin{enumerate}
+            \item for each car in the goal, sail the ferry to its origin and board it
+            \item sail the ferry to the car goal location and debark it, repeat from step 1. until all goals are satisfied
+        \end{enumerate}
+        \item[] 
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $c\in[1, 20]$, $l \in [5, 15]$
+            \item Medium: $c\in[10, 100]$, $l \in [20, 50]$
+            \item Hard: $c\in[200, 1000]$, $l \in [100, 500]$
         \end{itemize}
     \end{itemize}
 
@@ -117,16 +147,24 @@
 \begin{frame}{Floortile}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
-        \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Description}: a grid of $x\times y$ tiles has $r$ robot painters, each in a different column, that can paint either the tile above or below with black/white colour. Robots may move in $4$ directions through no painted tiles. All tiles besides the bottom row must be painted, always with $(1,1)$ in white and adjacent ones with different colours.
+        %\item[]
+        \item \textbf{Hardness}: $2$-approximable  % Floortile $\leq_p$ Visitall ?
         %\item \textbf{Required Features}: ...
-        \item[]
+        %\item[]
+        \item \textbf{Strategy}:
+        \begin{enumerate}
+            \item move all robots (from left- to right-most) adjacent to each in the upper-left corner,
+            \item if necessary, change to white color if robot coordinates $(i,j)$ add up to an odd number, otherwise to black,
+            \item move a robot down, paint its tile above, and swap colours, and repeat it for each robot until reaching the bottom row
+            \item move the rightmost robot once to the right, then to the upmost tile, and repeat from step 2. only for this robot and until no more columns left
+        \end{enumerate}
+        %\item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $x,y \in [3,8]$, $r \in [1,3]$
+            \item Medium: $x,y \in [10,22]$, $r \in [4,15]$
+            \item Hard: $x,y \in [25,37]$, $r \in [15,35]$
         \end{itemize}
     \end{itemize}
 
@@ -136,16 +174,24 @@
 \begin{frame}{Miconic}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
-        \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Description}: there are $p$ passengers randomly distributed in $f$ floors; an elevator (with $\infty$ capacity) that can board passengers ``only'' from its origin floor and depart them ``only'' at their destination; and the elevator can move between any two floors
+        %\item[]
+        \item \textbf{Hardness}: $2$-approximable (Helmer \textit{et al.}, ECAI 2006)
         %\item \textbf{Required Features}: ...
-        \item[]
+        %\item[]
+        \item \textbf{Strategy}:
+        \begin{enumerate}
+            \item move the elevator to the first floor with a passenger at origin,
+            \item board all passengers at origin in that floor, and depart all the ones at destination,
+            \item move to the next floor up with a passenger to board or depart, and get back to step 2.; repeat until no more passengers to board or depart above,
+            \item repeat the previous step but move the elevator down
+        \end{enumerate}
+        %\item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $p\in[1, 10]$, $f \in [4, 20]$
+            \item Medium: $p\in[20, 80]$, $f \in [30, 60]$
+            \item Hard: $p\in[50, 500]$, $f \in [80, 200]$
         \end{itemize}
     \end{itemize}
 
@@ -155,16 +201,23 @@
 \begin{frame}{Rovers}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
-        \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Description}: $r$ rovers are equipped to analyzing soil/rock and/or taking images from $o$ objectives with up to $c$ cameras (req. calibration), which must be communicated to a lander. Each soil and rock to analyze is in one of the $w$ waypoints, and the objectives and the lander are visible from a subset waypoints. Rovers can only navigate through a subset of waypoint edges that must be visible
+        %\item[]
+        \item \textbf{Hardness}: poly-APX (Helmert \textit{et al.}, ECAI 2006)
         %\item \textbf{Required Features}: ...
-        \item[]
+        %\item[]
+        \item \textbf{Strategy}:
+        \begin{enumerate}
+            \item for each rock/soil data in the goal, get a rover equipped for rock/soil analysis and can move to that waypoint, sample and drop it
+            \item for each image in the goal, get a rover that can reach a waypoint to take the image and that has a camera that supports the corresponding mode. Move the rover to the corresponding waypoint to calibrate the camera, then to the waypoint to take the image,
+            \item communicate all data after moving each rover to a waypoint where lander is visible
+        \end{enumerate}
+        %\item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $r\in[1, 4]$, $w\in[4, 10]$, $c\in[1, 4]$, $o\in[1, 10]$
+            \item Medium: $r\in[5, 10]$, $w\in[15, 90]$, $c\in[5, 50]$, $o\in[15, 80]$
+            \item Hard: $r\in[15, 30]$, $w\in[100, 200]$, $c\in[60, 100]$, $o\in[100, 200]$
         \end{itemize}
     \end{itemize}
 
@@ -174,16 +227,24 @@
 \begin{frame}{Satellite}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
-        \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Description}: $i$ switched-off instruments are onboard $s$ satellites and can take images in up to $m$ modes. Satellites point and turn to any of the $d$ directions. Only one instrument can be active at a time in a satellite, and they need to calibrate in a specific direction when they are switched-on before taking images
+        %\item[]
+        \item \textbf{Hardness}: $6$-approximable (Helmer \textit{et al.}, ECAI 2006)
         %\item \textbf{Required Features}: ...
-        \item[]
+        %\item[]
+        \item \textbf{Strategy}:
+        \begin{enumerate}
+            \item for a goal image, switch on the instrument (in a sat.) that supports the goal mode
+            \item turn the satellite to calibration target if necessary, and calibrate the instrument
+            \item turn to goal direction and take the image, switch it off and repeat from step 1. until no more images to take
+            \item for each goal pointing direction, turn the satellite to that direction if necessary
+        \end{enumerate}
+        %\item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $s\in[3, 10]$, $i\in[3,20]$, $m\in[1, 3]$, $d\in[4, 10]$
+            \item Medium: $s\in[15, 40]$, $i\in[15,80]$, $m\in[3, 5]$, $d\in[15, 30]$
+            \item Hard: $s\in[50, 100]$, $i\in[50,200]$, $m\in[5, 10]$, $d\in[40, 100]$
         \end{itemize}
     \end{itemize}
 
@@ -193,16 +254,18 @@
 \begin{frame}{Sokoban}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
+        \item \textbf{Description}: the task consists of an agent in a $g\times g$ grid, with some locations blocked by walls, that must either move or push $b$ boxes (in any of the $4$ cardinal directions) to their goal through clear locations
         \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Hardness}: PSPACE-complete (Culberson, 1997) % (does any approximation exist?)
         %\item \textbf{Required Features}: ...
+        \item[]
+        \item \textbf{Strategy}: no polynomial approximation, so solvable instances are generated first by moving the agent to each box iteratively, and pushing them up to a max. number of moves, every unvisited location is at the end a candidate to place a wall
         \item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $g\in[8, 13]$, $b\in[1, 4]$
+            \item Medium: $g\in[20, 50]$, $b\in [5,35]$
+            \item Hard: $g\in[60, 100]$, $b\in[40,80]$
         \end{itemize}
     \end{itemize}
 
@@ -212,16 +275,23 @@
 \begin{frame}{Spanner}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
+        \item \textbf{Description}: an agent can only move forward from a shed to a gate, by crossing $l$ locations of a corridor, and collect up to $s$ scattered spanners at those locations to tighten all $n$ loose nuts at the gate (spanners consume when they are used)
         \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Hardness}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
         \item[]
+        \item \textbf{Strategy}: 
+        \begin{enumerate}
+            \item move to the next location,
+            \item collect all spanners in that location up to a total of $n$ spanners, and repeat from step 1. until reaching the gate,
+            \item use each collected spanner to tighten a loose nut, and repeat until all nuts are tightened
+        \end{enumerate}
+        \item[] 
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $s\in[1,10]$, $n\in[1, 5]$, $l\in[4, 10]$
+            \item Medium: $s\in[30,90]$, $n\in[15, 50]$, $l\in[15, 45]$
+            \item Hard: $s\in[100,500]$, $n\in[50, 250]$, $l\in[50, 100]$
         \end{itemize}
     \end{itemize}
 
@@ -231,16 +301,22 @@
 \begin{frame}{Transport}
 
     \begin{itemize}
-        \item \textbf{Description}: ...
+        \item \textbf{Description}:  $p$ packages are randomly distributed into $l$ locations that are strongly connected, and need to be delivered to other destination locations  by using up to $v$ vehicles with $m$ maximum capacity
         \item[]
-        \item \textbf{Hardness}: ...
+        \item \textbf{Hardness}: poly-APX %, Transport $\leq_p$ Driverlog (Helmert \textit{et al.}, ECAI 2006) % (requires proof)
         %\item \textbf{Required Features}: ...
         \item[]
+        \item \textbf{Strategy}:
+        \begin{enumerate}
+            \item using always the same vehicle, for each package in the goal, drive from vehicle location $\rightarrow$ package starting location (path search), and pick it up,
+            \item drive from package origin to its destination (path search), and drop it, and repeat from step 1. until no more packages to transport
+        \end{enumerate}
+        \item[] 
         \item \textbf{Parameter ranges}:
         \begin{itemize}
-            \item Easy: ...
-            \item Medium: ...
-            \item Hard: ...
+            \item Easy: $v\in[3, 6]$, $p\in[1, 15]$, $l\in[5, 15]$, $m=2$
+            \item Medium: $v\in[10, 20]$, $p\in[5, 45]$, $l\in[20, 40]$, $m=4$
+            \item Hard: $v\in[30, 50]$, $p\in[20, 200]$, $l\in[50, 100]$, $m=10$
         \end{itemize}
     \end{itemize}
 
