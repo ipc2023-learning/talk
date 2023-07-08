@@ -49,33 +49,181 @@
 \begin{frame}
     % Print the title page as the first slide
     \titlepage
-
 \end{frame}
 
-\begin{frame}{Domains}
+\begin{frame}{Setup}
     \begin{itemize}
-        \item STRIPS, action costs, types, negative preconditions
+        \item all computations done by organizers
+        \item only bugfixes allowed after submission deadline
+        \item goal: reproducibility
+        \item submission two Apptainer files
+    \end{itemize}
+
+    \begin{block}{Learning}
+        ./learn dk DOMAIN TASK1 TASK2 TASK3 ...
+    \end{block}
+
+    produces files \texttt{dk.1}, \texttt{dk.2}, etc.
+
+    \begin{exampleblock}{Planning}
+        ./plan dk.5 DOMAIN TASK plan
+    \end{exampleblock}
+
+    finds plans \texttt{plan.1}, \texttt{plan.2}, etc.
+\end{frame}
+
+\begin{frame}{Planning Tasks}
+    \begin{itemize}
+        \item STRIPS, unit costs, types, negative preconditions
         \item Training: $\sim$99 ``easy'' instances, out of which $\sim$10 handwritten base cases
         \item Testing: 30 easy, 30 medium and 30 hard instances
         \item Experiments on instances:
         \begin{itemize}
             \item base cases can be fully expanded,
             \item some easy cases are solvable with blind search,
-            \item many easy cases can be solved optimally with LMCUT,
+            \item many easy cases can be solved optimally with LM-cut,
             \item most easy cases and many medium are solvable with LAMA
         \end{itemize}
         \item A plan is generated for each instance with a domain-dependent strategy, and validated with both the Unified Planning and the Universal Planning Validator frameworks.
+        \item All tasks and code available online.
     \end{itemize}
+\end{frame}
+
+\begin{frame}{Environment}
+    Single-Core
+    \begin{itemize}
+        \item 1 CPU core (from an Intel Xeon Gold 6130 CPU), no GPU
+        \item Limits \alert{training} per domain: 24 hours, 32 GiB
+        \item Limits \alert{evaluation} per task: 30 minutes, 8 GiB
+    \end{itemize}
+
+    \bigskip
+    Multi-Core canceled
+\end{frame}
+
+\begin{frame}{Metrics}
+    \begin{itemize}
+        \item Quality score: C*/C\\
+        Bounds C* obtained with domain-specific solvers, IPC planners, LAMA (8h, 32 GiB)
+        \item Agile score: 1 - log(T)/log(1800)
+        \item Same ranking $\to$ focus on quality score in this talk.
+    \end{itemize}
+\end{frame}
+
+\section{Submissions}
+
+\begin{frame}{Baselines}
+\begin{itemize}
+\item
+    \textbf{Fast Downward SMAC 2014}\\
+    \emph{Jendrik Seipp, Silvan Sievers, Frank Hutter}\\
+    Single Fast Downward
+    configuration, optimized for minimal runtime with SMAC.
+\item
+    \textbf{Progressive Generalized Planner}\\
+    \emph{Javier
+    Segovia-Aguas, Sergio Jiménez, Laura Sebastiá, Anders Jonsson}\\
+    Fixed configuration of PGP for the given training tasks.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Participants 1/2}
+\begin{itemize}
+\item
+    \textbf{ASNets 2023}\\
+    \emph{Mingyu Hao, Ryan Wang, Sam Toyer, Felipe Trevizan, Sylvie
+    Thiébaux, Lexing Xie}\\
+    Action Schema Networks implemented in Tensorflow 2.
+\item
+    \textbf{GOFAI}\\
+    \emph{Alvaro Torralba, Daniel Gnad}\\
+    Good Old-Fashioned AI that learns
+    how to partially ground tasks from a given domain.
+\item
+    \textbf{HUZAR}\\
+    \emph{Piotr Rafal Gzubicki, Bartosz Piotr Lachowicz, Alvaro Torralba}\\
+    Learn to distinguish between good and bad transitions by feeding
+    problem description graphs into a GNN.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Participants 2/2}
+\begin{itemize}
+\item
+    \textbf{Muninn}\\
+    \emph{Simon Ståhlberg, Blai Bonet, Hector Geffner}\\
+    Learn Relational MPNNs for STRIPS.
+\item
+    \textbf{NPGP}\\
+    \emph{Chao Lei, Nir Lipovetzky, Krista A. Ehinger}\\
+    Novelty-based generalized planner that
+    prunes a newly generated planning program if its most frequent action
+    repetition is greater than a given bound.
+\item
+    \textbf{Vanir}\\
+    \emph{Dominik Drexler}\\
+    Learn width-based hierarchical policies for
+    polynomial domains.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Domains and Results}
+  \begin{itemize}
+    \item PGP fails to learn DK in the evaluation domains
+    \item[$\to$] NPGP fails as well, omit from results below
+  \end{itemize}
+  %\bigskip
+  %Planners
+  %\begin{itemize}
+    %\item LAMA, FDSS: non-learning baselines
+    %\item SMAC: learning baseline
+    %\item ASNets, GOFAI, HUZAR, Muninn, Vanir: competitors
+
+  %\end{itemize}
+\end{frame}
+
+\begin{frame}{Recognition of Good Performance}
+    \begin{itemize}
+      \item Muninn is optimized to run on GPU
+      \item HTML reports include Muninn version using GPU for \emph{planning}, but still not for learning
+      \item[$\to$] Has higher quality scores in all domains, but not enough to change ranking
+    \end{itemize}
+    \bigskip
+    %\begin{block}{Recognition}
+
+    %\end{block}
+  \end{frame}
+
+\begin{frame}{Quality Scores}
+    \centering
+    \newcommand{\numtasks}[1]{}
+    \setlength{\tabcolsep}{0.3em}
+    \begin{tabular}{@{}lrrrrrrrrr@{}}
+         & LAMA & FDSS & SMAC & ASNets & GOFAI & HUZAR & Muninn & M-GPU & Vanir \\
+        \midrule \pause
+        \only<+->{Blocksworld & 47.9 & 49.4 & 31.5 & 4.6 & 46.4 & 39.3 & 40.6 & \textbf{58.2} & -- }\\
+        \only<+->{Childsnack  & 26.2 & 35.4 & 20.2 & 0.0 & \textbf{26.5} & 22.0 & 11.0 & 12.0 & -- }\\
+        \only<+->{Ferry       & 64.0 & 61.5 & 64.4 & -- & 58.5 & 58.7 & 42.1 & 59.2 & \textbf{76.3} }\\
+        \only<+->{Floortile   & 12.0 & 22.7 & 24.7 & -- & \textbf{34.4} & 21.3 & 0.0 & 0.0 & -- }\\
+        \only<+->{Miconic     & 84.4 & \textbf{89.6} & 52.3 & 7.2 & 81.4 & 72.4 & 30.0 & 50.9 & 75.2 }\\
+        \only<+->{Rovers      & \textbf{66.8} & 64.0 & 58.1 & 6.5 & 54.4 & 60.0 & 14.2 & 16.9 & 66.1 }\\
+        \only<+->{Satellite   & 87.3 & \textbf{88.7} & 71.0 & -- & 74.0 & 79.9 & 16.0 & 18.9 & 87.3 }\\
+        \only<+->{Sokoban     & 37.7 & \textbf{39.0} & 30.8 & 0.0 & 38.4 & 28.1 & 24.3 & 27.0 & 37.7 }\\
+        \only<+->{Spanner     & 30.0 & \textbf{60.7} & 30.0 & 8.9 & 30.0 & 30.0 & 32.0 & 33.0 & -- }\\
+        \only<+->{Transport   & 61.4 & 63.0 & 62.7 & 2.0 & \textbf{64.5} & 55.4 & 16.2 & 22.5 & -- }\\
+        \midrule
+        \only<+->{Sum     & 517.6 & \textbf{574.1} & 445.7 & 29.1 & 508.5 & 467.0 & 226.3 & 298.5 & 342.6 }\\
+        \end{tabular}
 \end{frame}
 
 \begin{frame}{Blocksworld}
 
     \begin{itemize}
-        \item \textbf{Description}: the task is to map an initial configuration of towers of $n$ blocks in total, into a goal configuration where block towers are arranged in a different order
+        \item \textbf{Description}: convert initial configuration of towers of $n$ blocks into a goal configuration
         \item[]
         \item \textbf{Hardness}: $2$-approximable (Gupta and Nau, AAAI 1991)
-        \item[] 
-        \item \textbf{Strategy}: 
+        \item[]
+        \item \textbf{Strategy}:
         \begin{enumerate}
             \item unstack all blocks (and the ones above) that are not in their goal location and put them down on the table,
             \item pick and stack blocks as they appear in the goal
@@ -100,14 +248,14 @@
         \item \textbf{Hardness}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
         %\item[]
-        \item \textbf{Strategy}: 
+        \item \textbf{Strategy}:
         \begin{enumerate}
             \item make $c$ sandwiches, doing as many gluten-free as possible, and the rest with gluten,
             \item put all $c$ sandwiches on one tray, and move that tray from the kitchen to the first table
             \item for each child at the table, serve a sandwich with gluten if possible, otherwise serve a gluten-free sandwich
             \item move the tray to the next table with children and repeat the previous step, until all children are served
         \end{enumerate}
-        %\item[] 
+        %\item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
             \item Easy: $c\in[4, 10]$, $a\in[0, 6]$, $t\in[1, 3]$, $s\in[4, 15]$
@@ -127,12 +275,12 @@
         \item \textbf{Hardness}: $2$-approximable % Ferry $\leq_p$ Miconic (Helmet \textit{et al.}, ECAI 2006)  % requires a proof
         %\item \textbf{Required Features}: ...
         \item[]
-        \item \textbf{Strategy}: 
+        \item \textbf{Strategy}:
         \begin{enumerate}
             \item for each car in the goal, sail the ferry to its origin and board it
             \item sail the ferry to the car goal location and debark it, repeat from step 1. until all goals are satisfied
         \end{enumerate}
-        \item[] 
+        \item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
             \item Easy: $c\in[1, 20]$, $l \in [5, 15]$
@@ -280,13 +428,13 @@
         \item \textbf{Hardness}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
         \item[]
-        \item \textbf{Strategy}: 
+        \item \textbf{Strategy}:
         \begin{enumerate}
             \item move to the next location,
             \item collect all spanners in that location up to a total of $n$ spanners, and repeat from step 1. until reaching the gate,
             \item use each collected spanner to tighten a loose nut, and repeat until all nuts are tightened
         \end{enumerate}
-        \item[] 
+        \item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
             \item Easy: $s\in[1,10]$, $n\in[1, 5]$, $l\in[4, 10]$
@@ -311,7 +459,7 @@
             \item using always the same vehicle, for each package in the goal, drive from vehicle location $\rightarrow$ package starting location (path search), and pick it up,
             \item drive from package origin to its destination (path search), and drop it, and repeat from step 1. until no more packages to transport
         \end{enumerate}
-        \item[] 
+        \item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
             \item Easy: $v\in[3, 6]$, $p\in[1, 15]$, $l\in[5, 15]$, $m=2$
@@ -321,104 +469,5 @@
     \end{itemize}
 
 \end{frame}
-
-\begin{frame}{Setup}
-    \begin{itemize}
-        \item all computations done by organizers
-        \item only bugfixes allowed after submission deadline
-        \item submission two Apptainer files
-        \item goal: reproducibility
-    \end{itemize}
-
-    \begin{block}{Learning}
-        ./learn dk DOMAIN TASK1 TASK2 TASK3 ...
-    \end{block}
-
-    produces files \texttt{dk.1}, \texttt{dk.2}, etc.
-
-    \begin{exampleblock}{Planning}
-        ./plan dk.5 DOMAIN TASK plan
-    \end{exampleblock}
-
-    finds plans \texttt{plan.1}, \texttt{plan.2}, etc.
-\end{frame}
-
-\begin{frame}{Environment}
-    Single-Core
-    \begin{itemize}
-        \item 1 CPU core (from an Intel Xeon Gold 6130 CPU), no GPU
-        \item Limits \alert{training} per domain: 24 hours, 32 GiB
-        \item Limits \alert{evaluation} per task: 30 minutes, 8 GiB
-    \end{itemize}
-
-    \bigskip
-    Multi-Core canceled
-\end{frame}
-
-\begin{frame}{Metrics}
-    \begin{itemize}
-        \item Quality score: C*/C
-        \item Bounds C* obtained with domain-specific solvers, IPC planners, LAMA (8h, 32 GiB)
-        \item Agile score: 1 - log(T)/log(300)
-    \end{itemize}
-\end{frame}
-
-\section{Submissions}
-
-\begin{frame}{Baselines}
-\begin{itemize}
-\item
-    \textbf{Fast Downward SMAC 2014}\\
-    \emph{Jendrik Seipp, Silvan Sievers, Frank Hutter}\\
-    Single Fast Downward
-    configuration, optimized with SMAC for training tasks.
-\item
-    \textbf{Progressive Generalized Planner}\\
-    \emph{Javier
-    Segovia-Aguas, Sergio Jiménez, Laura Sebastiá, Anders Jonsson}\\
-    Fixed configuration of PGP for the given training tasks.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Participants 1/2}
-\begin{itemize}
-\item
-    \textbf{ASNets 2023}\\
-    \emph{Mingyu Hao, Ryan Wang, Sam Toyer, Felipe Trevizan, Sylvie
-    Thiébaux, Lexing Xie}\\
-    Action Schema Networks implemented in Tensorflow 2.
-\item
-    \textbf{GOFAI}\\
-    \emph{Alvaro Torralba, Daniel Gnad}\\
-    Good Old-Fashioned AI that learns
-    how to partially ground tasks from a given domain.
-\item
-    \textbf{HUZAR}\\
-    \emph{Piotr Rafal Gzubicki, Bartosz Piotr Lachowicz, Alvaro Torralba}\\
-    Learn to distinguish between good and bad transitions by feeding
-    problem description graphs into a GNN.
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Participants 2/2}
-\begin{itemize}
-\item
-    \textbf{Muninn}\\
-    \emph{Simon Ståhlberg, Blai Bonet, Hector Geffner}\\
-    Learn Relational MPNNs for STRIPS.
-\item
-    \textbf{Novelty-based Progressive Generalized Planner}\\
-    \emph{Chao Lei, Nir Lipovetzky, Krista A. Ehinger}\\
-    Novelty-based generalized planner that
-    prunes a newly generated planning program if its most frequent action
-    repetition is greater than a given bound.
-\item
-    \textbf{Vanir}\\
-    \emph{Dominik Drexler}\\
-    Learn width-based hierarchical policies for
-    polynomial domains.
-\end{itemize}
-\end{frame}
-
 
 \end{document}
