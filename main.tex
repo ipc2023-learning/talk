@@ -21,6 +21,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata,shapes}
 \newcommand{\tup}[1]{{\langle #1 \rangle}}
+\usepackage{multicol}
 \usepackage{multirow}
 %\usepackage{minted}
 %\usepackage{svg}
@@ -53,10 +54,10 @@
 
 \begin{frame}{Setup}
     \begin{itemize}
-        \item all computations done by organizers
+        \item like 2008, 2011, 2014, but all computations done by organizers
         \item only bugfixes allowed after submission deadline
         \item goal: reproducibility
-        \item submission two Apptainer files
+        \item submit two Apptainer files
     \end{itemize}
 
     \begin{block}{Learning}
@@ -106,7 +107,7 @@
         \item Quality score: C*/C\\
         Bounds C* obtained with domain-specific solvers, IPC planners, LAMA (8h, 32 GiB)
         \item Agile score: 1 - log(T)/log(1800)
-        \item Same ranking $\to$ focus on quality score in this talk.
+        \item Same ranking $\to$ awards only for quality score
     \end{itemize}
 \end{frame}
 
@@ -152,7 +153,7 @@
 \item
     \textbf{Muninn}\\
     \emph{Simon Ståhlberg, Blai Bonet, Hector Geffner}\\
-    Learn Relational MPNNs for STRIPS.
+    Learn relational message-passing neural networks for STRIPS.
 \item
     \textbf{NPGP}\\
     \emph{Chao Lei, Nir Lipovetzky, Krista A. Ehinger}\\
@@ -168,51 +169,65 @@
 \end{frame}
 
 \begin{frame}{Domains and Results}
+
+  \begin{itemize}
+    \item \alert{Muninn} only system to not crash immediately in first tests
+    \item Future: pass time and memory limits to Apptainer scripts
+  \end{itemize}
+
+  \bigskip
+  \pause
+
   \begin{itemize}
     \item PGP fails to learn DK in the evaluation domains
-    \item[$\to$] NPGP fails as well, omit from results below
+    \item[$\to$] \alert{NPGP} fails as well, omit from results below
   \end{itemize}
-  %\bigskip
-  %Planners
-  %\begin{itemize}
-    %\item LAMA, FDSS: non-learning baselines
-    %\item SMAC: learning baseline
-    %\item ASNets, GOFAI, HUZAR, Muninn, Vanir: competitors
+  \bigskip
 
-  %\end{itemize}
+  \pause
+
+  \begin{itemize}
+    \item \alert{Muninn} is optimized to run on GPUs
+    \item results below use only CPUs
+    %\item HTML reports include Muninn version using GPU for \emph{planning}, but still not for learning
+    %\item[$\to$] Has higher quality scores in all domains, but not enough to change ranking
+    %\item[$\to$] results could change when using GPUs instead of CPUs
+\end{itemize}
+
+%\bigskip
+%\textbf{Systems}:
+%\begin{itemize}
+%  \item LAMA, FDSS: non-learning baselines
+%  \item SMAC: learning baseline
+%  \item ASNets, GOFAI, HUZAR, Muninn, Vanir: competitors
+%\end{itemize}
 \end{frame}
 
-\begin{frame}{Recognition of Good Performance}
-    \begin{itemize}
-      \item Muninn is optimized to run on GPU
-      \item HTML reports include Muninn version using GPU for \emph{planning}, but still not for learning
-      \item[$\to$] Has higher quality scores in all domains, but not enough to change ranking
-    \end{itemize}
-    \bigskip
-    %\begin{block}{Recognition}
-
-    %\end{block}
-  \end{frame}
-
-\begin{frame}{Quality Scores}
+\begin{frame}<1>[label=scores]{Quality Scores}
     \centering
     \newcommand{\numtasks}[1]{}
-    \setlength{\tabcolsep}{0.3em}
-    \begin{tabular}{@{}lrrrrrrrrr@{}}
-         & LAMA & FDSS & SMAC & ASNets & GOFAI & HUZAR & Muninn & M-GPU & Vanir \\
-        \midrule \pause
-        \only<+->{Blocksworld & 47.9 & 49.4 & 31.5 & 4.6 & 46.4 & 39.3 & 40.6 & \textbf{58.2} & -- }\\
-        \only<+->{Childsnack  & 26.2 & 35.4 & 20.2 & 0.0 & \textbf{26.5} & 22.0 & 11.0 & 12.0 & -- }\\
-        \only<+->{Ferry       & 64.0 & 61.5 & 64.4 & -- & 58.5 & 58.7 & 42.1 & 59.2 & \textbf{76.3} }\\
-        \only<+->{Floortile   & 12.0 & 22.7 & 24.7 & -- & \textbf{34.4} & 21.3 & 0.0 & 0.0 & -- }\\
-        \only<+->{Miconic     & 84.4 & \textbf{89.6} & 52.3 & 7.2 & 81.4 & 72.4 & 30.0 & 50.9 & 75.2 }\\
-        \only<+->{Rovers      & \textbf{66.8} & 64.0 & 58.1 & 6.5 & 54.4 & 60.0 & 14.2 & 16.9 & 66.1 }\\
-        \only<+->{Satellite   & 87.3 & \textbf{88.7} & 71.0 & -- & 74.0 & 79.9 & 16.0 & 18.9 & 87.3 }\\
-        \only<+->{Sokoban     & 37.7 & \textbf{39.0} & 30.8 & 0.0 & 38.4 & 28.1 & 24.3 & 27.0 & 37.7 }\\
-        \only<+->{Spanner     & 30.0 & \textbf{60.7} & 30.0 & 8.9 & 30.0 & 30.0 & 32.0 & 33.0 & -- }\\
-        \only<+->{Transport   & 61.4 & 63.0 & 62.7 & 2.0 & \textbf{64.5} & 55.4 & 16.2 & 22.5 & -- }\\
+    \setlength{\tabcolsep}{0.5em}
+    \begin{tabular}{@{}lrrrrrrrr@{}}
+        & \multicolumn{3}{c}{Baselines} & \multicolumn{5}{c}{Competitors} \\
+        \cmidrule(r){2-4}
+        \cmidrule(l){5-9}
+         & LAMA & FDSS & SMAC & ASNets & GOFAI & HUZAR & Muninn & Vanir \\
         \midrule
-        \only<+->{Sum     & 517.6 & \textbf{574.1} & 445.7 & 29.1 & 508.5 & 467.0 & 226.3 & 298.5 & 342.6 }\\
+        \pause
+        \only<+->{Blocksworld & 47.9 & 49.4 & 31.5 & 4.6 & \textbf{46.4} & 39.3 & 40.6 & -- }\\
+        \only<+->{Childsnack  & 26.2 & 35.4 & 20.2 & 0.0 & \textbf{26.5} & 22.0 & 11.0 & -- }\\
+        \only<+->{Ferry       & 64.0 & 61.5 & 64.4 & -- & 58.5 & 58.7 & 42.1 & \textbf{76.3} }\\
+        \only<+->{Floortile   & 12.0 & 22.7 & 24.7 & -- & \textbf{34.4} & 21.3 & 0.0 & -- }\\
+        \only<+->{Miconic     & 84.4 & 89.6 & 52.3 & 7.2 & \textbf{81.4} & 72.4 & 30.0 & 75.2 }\\
+        \only<+->{Rovers      & 66.8 & 64.0 & 58.1 & 6.5 & 54.4 & 60.0 & 14.2 &  \textbf{66.1} }\\
+        \only<+->{Satellite   & 87.3 & 88.7 & 71.0 & -- & 74.0 & 79.9 & 16.0 & \textbf{87.3} }\\
+        \only<+->{Sokoban     & 37.7 & 39.0 & 30.8 & 0.0 & \textbf{38.4} & 28.1 & 24.3 & 37.7 }\\
+        \only<+->{Spanner     & 30.0 & 60.7 & 30.0 & 8.9 & 30.0 & 30.0 & \textbf{32.0} & -- }\\
+        \only<+->{Transport   & 61.4 & 63.0 & 62.7 & 2.0 & \textbf{64.5} & 55.4 & 16.2 & -- }\\
+        \midrule
+        \only<+->{
+        Sum     & 517.6 & 574.1 & 445.7 & 29.1 & \textbf{508.5} & 467.0 & 226.3 & 342.6 }\\
+        %\bottomrule
         \end{tabular}
 \end{frame}
 
@@ -225,7 +240,7 @@
         \item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
-            \item unstack all blocks (and the ones above) that are not in their goal location and put them down on the table,
+            \item unstack all blocks (and the ones above) that are not at their goal location,
             \item pick and stack blocks as they appear in the goal
         \end{enumerate}
         %\item \textbf{Required features}: goal lookups.
@@ -239,18 +254,19 @@
     \end{itemize}
 
 \end{frame}
+\againframe<2>{scores}
 
 \begin{frame}{Childsnack}
 
     \begin{itemize}
-        \item \textbf{Description}: there are up to $s$ sandwiches in a kitchen that can be made either with gluten or gluten-free ingredients. These sandwiches are delivered, on up to $t$ trays, to the $c$ children ($a$ are allergic to gluten) that are waiting to be served at the tables
+        \item \textbf{Description}: make $s$ sandwiches in a kitchen either with gluten or gluten-free ingredients. Deliver sandwiches on $t$ trays to the tables with $c$ children ($a$ are allergic to gluten).
         %\item[]
-        \item \textbf{Hardness}: PO %(requires a proof)
+        \item \textbf{Hardness Hypothesis}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
         %\item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
-            \item make $c$ sandwiches, doing as many gluten-free as possible, and the rest with gluten,
+            \item make $c$ sandwiches, making as many gluten-free as possible, and the rest with gluten,
             \item put all $c$ sandwiches on one tray, and move that tray from the kitchen to the first table
             \item for each child at the table, serve a sandwich with gluten if possible, otherwise serve a gluten-free sandwich
             \item move the tray to the next table with children and repeat the previous step, until all children are served
@@ -260,25 +276,26 @@
         \begin{itemize}
             \item Easy: $c\in[4, 10]$, $a\in[0, 6]$, $t\in[1, 3]$, $s\in[4, 15]$
             \item Medium: $c\in[15, 40]$, $a\in[15, 25]$, $t\in[2, 5]$, $s\in[15, 60]$
-            \item Hard: $c\in[50, 300]$, , $a\in[50, 150]$, $t\in[4, 10]$, $s\in[50, 450]$
+            \item Hard: $c\in[50, 300]$, $a\in[50, 150]$, $t\in[4, 10]$, $s\in[50, 450]$
         \end{itemize}
     \end{itemize}
 
 \end{frame}
+\againframe<3>{scores}
 
 
 \begin{frame}{Ferry}
 
     \begin{itemize}
-        \item \textbf{Description}: there are $c$ cars randomly distributed into $l$ locations, and a ferry with capacity for $1$ car, must board cars from their origin and debark them into their corresponding goal location
+        \item \textbf{Description}: $c$ cars are randomly distributed into $l$ locations, and a ferry with capacity for $1$ car must transport them to their destinations.
         \item[]
-        \item \textbf{Hardness}: $2$-approximable % Ferry $\leq_p$ Miconic (Helmet \textit{et al.}, ECAI 2006)  % requires a proof
+        \item \textbf{Hardness Hypothesis}: $2$-approximable % Ferry $\leq_p$ Miconic (Helmet \textit{et al.}, ECAI 2006)  % requires a proof
         %\item \textbf{Required Features}: ...
         \item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
             \item for each car in the goal, sail the ferry to its origin and board it
-            \item sail the ferry to the car goal location and debark it, repeat from step 1. until all goals are satisfied
+            \item sail the ferry to the car goal location and debark it, then repeat from step 1. until all goals are satisfied
         \end{enumerate}
         \item[]
         \item \textbf{Parameter ranges}:
@@ -290,22 +307,23 @@
     \end{itemize}
 
 \end{frame}
+\againframe<4>{scores}
 
 
 \begin{frame}{Floortile}
 
     \begin{itemize}
-        \item \textbf{Description}: a grid of $x\times y$ tiles has $r$ robot painters, each in a different column, that can paint either the tile above or below with black/white colour. Robots may move in $4$ directions through no painted tiles. All tiles besides the bottom row must be painted, always with $(1,1)$ in white and adjacent ones with different colours.
+        \item \textbf{Description}: a grid of $x\times y$ tiles has $r$ robot painters, each in a different column, that can paint either the tile above or below with black/white color. Robots may move in $4$ directions via unpainted tiles. All tiles except the bottom row must be painted in checkerboard style.
         %\item[]
-        \item \textbf{Hardness}: $2$-approximable  % Floortile $\leq_p$ Visitall ?
+        \item \textbf{Hardness Hypothesis}: $2$-approximable  % Floortile $\leq_p$ Visitall ?
         %\item \textbf{Required Features}: ...
         %\item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
             \item move all robots (from left- to right-most) adjacent to each in the upper-left corner,
             \item if necessary, change to white color if robot coordinates $(i,j)$ add up to an odd number, otherwise to black,
-            \item move a robot down, paint its tile above, and swap colours, and repeat it for each robot until reaching the bottom row
-            \item move the rightmost robot once to the right, then to the upmost tile, and repeat from step 2. only for this robot and until no more columns left
+            \item move a robot down, paint its tile above, and swap colors, and repeat this for each robot until reaching the bottom row
+            \item move the rightmost robot once to the right, then to the topmost tile, and repeat from step 2. only for this robot and until no more columns are left
         \end{enumerate}
         %\item[]
         \item \textbf{Parameter ranges}:
@@ -317,21 +335,22 @@
     \end{itemize}
 
 \end{frame}
+\againframe<5>{scores}
 
 
 \begin{frame}{Miconic}
 
     \begin{itemize}
-        \item \textbf{Description}: there are $p$ passengers randomly distributed in $f$ floors; an elevator (with $\infty$ capacity) that can board passengers ``only'' from its origin floor and depart them ``only'' at their destination; and the elevator can move between any two floors
+        \item \textbf{Description}: there are $p$ passengers randomly distributed on $f$ floors; an elevator (with $\infty$ capacity) that can board passengers ``only'' from their origin floor and let them depart ``only'' at their destination; and the elevator can move between any two floors.
         %\item[]
-        \item \textbf{Hardness}: $2$-approximable (Helmer \textit{et al.}, ECAI 2006)
+        \item \textbf{Hardness}: $2$-approximable (Helmert \textit{et al.}, ECAI 2006)
         %\item \textbf{Required Features}: ...
         %\item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
-            \item move the elevator to the first floor with a passenger at origin,
-            \item board all passengers at origin in that floor, and depart all the ones at destination,
-            \item move to the next floor up with a passenger to board or depart, and get back to step 2.; repeat until no more passengers to board or depart above,
+            \item move the elevator to the first floor with a passenger,
+            \item board all passengers on that floor, and depart all the ones that are at their destination,
+            \item move upwards to the next floor with a passenger to board or depart, and go back to step 2.; repeat until no more passengers to board or depart above,
             \item repeat the previous step but move the elevator down
         \end{enumerate}
         %\item[]
@@ -344,21 +363,22 @@
     \end{itemize}
 
 \end{frame}
+\againframe<6>{scores}
 
 
 \begin{frame}{Rovers}
 
     \begin{itemize}
-        \item \textbf{Description}: $r$ rovers are equipped to analyzing soil/rock and/or taking images from $o$ objectives with up to $c$ cameras (req. calibration), which must be communicated to a lander. Each soil and rock to analyze is in one of the $w$ waypoints, and the objectives and the lander are visible from a subset waypoints. Rovers can only navigate through a subset of waypoint edges that must be visible
+        \item \textbf{Description}: $r$ rovers are equipped for analyzing soil/rock and/or taking images from $o$ objectives with up to $c$ cameras (requiring calibration), which must be communicated to a lander. Each soil and rock to analyze is in one of the $w$ waypoints, and the objectives and the lander are visible from a subset of waypoints. Rovers can only navigate through a subset of waypoint edges that must be visible.
         %\item[]
-        \item \textbf{Hardness}: poly-APX (Helmert \textit{et al.}, ECAI 2006)
+        \item \textbf{Hardness}: poly-APX (Helmert \textit{et al.}, ECAI 2006), bounded plans found in polytime
         %\item \textbf{Required Features}: ...
         %\item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
             \item for each rock/soil data in the goal, get a rover equipped for rock/soil analysis and can move to that waypoint, sample and drop it
             \item for each image in the goal, get a rover that can reach a waypoint to take the image and that has a camera that supports the corresponding mode. Move the rover to the corresponding waypoint to calibrate the camera, then to the waypoint to take the image,
-            \item communicate all data after moving each rover to a waypoint where lander is visible
+            \item communicate all data after moving each rover to a waypoint where a lander is visible
         \end{enumerate}
         %\item[]
         \item \textbf{Parameter ranges}:
@@ -370,21 +390,22 @@
     \end{itemize}
 
 \end{frame}
+\againframe<7>{scores}
 
 
 \begin{frame}{Satellite}
 
     \begin{itemize}
-        \item \textbf{Description}: $i$ switched-off instruments are onboard $s$ satellites and can take images in up to $m$ modes. Satellites point and turn to any of the $d$ directions. Only one instrument can be active at a time in a satellite, and they need to calibrate in a specific direction when they are switched-on before taking images
+        \item \textbf{Description}: $i$ switched-off instruments are on board $s$ satellites and can take images in up to $m$ modes. Satellites point and turn to any of the $d$ directions. Only one instrument can be active at a time in a satellite, and they need to calibrate in a specific direction when they are switched on before taking images.
         %\item[]
-        \item \textbf{Hardness}: $6$-approximable (Helmer \textit{et al.}, ECAI 2006)
+        \item \textbf{Hardness}: $6$-approximable (Helmert \textit{et al.}, ECAI 2006)
         %\item \textbf{Required Features}: ...
         %\item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
-            \item for a goal image, switch on the instrument (in a sat.) that supports the goal mode
+            \item for a goal image, switch on the instrument in a satellite that supports the goal mode
             \item turn the satellite to calibration target if necessary, and calibrate the instrument
-            \item turn to goal direction and take the image, switch it off and repeat from step 1. until no more images to take
+            \item turn to goal direction and take the image, switch it off and repeat from step 1. until there are no more images to take
             \item for each goal pointing direction, turn the satellite to that direction if necessary
         \end{enumerate}
         %\item[]
@@ -397,17 +418,18 @@
     \end{itemize}
 
 \end{frame}
+\againframe<8>{scores}
 
 
 \begin{frame}{Sokoban}
 
     \begin{itemize}
-        \item \textbf{Description}: the task consists of an agent in a $g\times g$ grid, with some locations blocked by walls, that must either move or push $b$ boxes (in any of the $4$ cardinal directions) to their goal through clear locations
+        \item \textbf{Description}: an agent in a $g\times g$ grid, with some locations blocked by walls, must push $b$ boxes (in any of the $4$ cardinal directions) to their goal.
         \item[]
         \item \textbf{Hardness}: PSPACE-complete (Culberson, 1997) % (does any approximation exist?)
         %\item \textbf{Required Features}: ...
         \item[]
-        \item \textbf{Strategy}: no polynomial approximation, so solvable instances are generated first by moving the agent to each box iteratively, and pushing them up to a max. number of moves, every unvisited location is at the end a candidate to place a wall
+        \item \textbf{Strategy}: no polynomial approximation, so solvable instances are generated first by moving the agent to each box iteratively, and pushing them up to a maximum number of moves, every unvisited location then becomes a candidate to place a wall.
         \item[]
         \item \textbf{Parameter ranges}:
         \begin{itemize}
@@ -418,14 +440,15 @@
     \end{itemize}
 
 \end{frame}
+\againframe<9>{scores}
 
 
 \begin{frame}{Spanner}
 
     \begin{itemize}
-        \item \textbf{Description}: an agent can only move forward from a shed to a gate, by crossing $l$ locations of a corridor, and collect up to $s$ scattered spanners at those locations to tighten all $n$ loose nuts at the gate (spanners consume when they are used)
+        \item \textbf{Description}: an agent can only move forward from a shed to a gate, by crossing $l$ locations of a corridor, and collect up to $s$ spanners to tighten all $n$ loose nuts at the gate. Spanners break when they are used.
         \item[]
-        \item \textbf{Hardness}: PO %(requires a proof)
+        \item \textbf{Hardness Hypothesis}: PO %(requires a proof)
         %\item \textbf{Required Features}: ...
         \item[]
         \item \textbf{Strategy}:
@@ -444,19 +467,20 @@
     \end{itemize}
 
 \end{frame}
+\againframe<10>{scores}
 
 
 \begin{frame}{Transport}
 
     \begin{itemize}
-        \item \textbf{Description}:  $p$ packages are randomly distributed into $l$ locations that are strongly connected, and need to be delivered to other destination locations  by using up to $v$ vehicles with $m$ maximum capacity
+        \item \textbf{Description}:  $p$ packages are randomly distributed to $l$ strongly connected locations, and need to be delivered to other destination locations by using up to $v$ vehicles with $m$ maximum capacity.
         \item[]
-        \item \textbf{Hardness}: poly-APX %, Transport $\leq_p$ Driverlog (Helmert \textit{et al.}, ECAI 2006) % (requires proof)
+        \item \textbf{Hardness Hypothesis}: poly-APX %, Transport $\leq_p$ Driverlog (Helmert \textit{et al.}, ECAI 2006) % (requires proof)
         %\item \textbf{Required Features}: ...
         \item[]
         \item \textbf{Strategy}:
         \begin{enumerate}
-            \item using always the same vehicle, for each package in the goal, drive from vehicle location $\rightarrow$ package starting location (path search), and pick it up,
+            \item using always the same vehicle, for each package in the goal, drive from vehicle location to package starting location (path search), and pick it up,
             \item drive from package origin to its destination (path search), and drop it, and repeat from step 1. until no more packages to transport
         \end{enumerate}
         \item[]
@@ -469,5 +493,24 @@
     \end{itemize}
 
 \end{frame}
+\againframe<11>{scores}
+
+\begin{frame}{Winners}
+
+    \pause
+
+    \begin{block}{Runner-Up}
+        \alert{HUZAR} by Piotr Rafal Gzubicki, Bartosz Piotr Lachowicz and Álvaro Torralba
+    \end{block}
+
+    \pause
+    \bigskip
+
+    \begin{block}{Winner}
+        \alert{GOFAI} by Álvaro Torralba and Daniel Gnad
+    \end{block}
+\end{frame}
+
+\againframe<12>{scores}
 
 \end{document}
