@@ -176,15 +176,12 @@
   \end{itemize}
 
   \bigskip
-  \pause
 
   \begin{itemize}
     \item PGP fails to learn DK in the evaluation domains
     \item[$\to$] \alert{NPGP} fails as well, omit from results below
   \end{itemize}
   \bigskip
-
-  \pause
 
   \begin{itemize}
     \item \alert{Muninn} is optimized to run on GPUs
@@ -201,34 +198,6 @@
 %  \item SMAC: learning baseline
 %  \item ASNets, GOFAI, HUZAR, Muninn, Vanir: competitors
 %\end{itemize}
-\end{frame}
-
-\begin{frame}<1>[label=scores]{Quality Scores}
-    \centering
-    \newcommand{\numtasks}[1]{}
-    \setlength{\tabcolsep}{0.5em}
-    \begin{tabular}{@{}lrrrrrrrr@{}}
-        & \multicolumn{3}{c}{Baselines} & \multicolumn{5}{c}{Competitors} \\
-        \cmidrule(r){2-4}
-        \cmidrule(l){5-9}
-         & LAMA & FDSS & SMAC & ASNets & GOFAI & HUZAR & Muninn & Vanir \\
-        \midrule
-        \pause
-        \only<+->{Blocksworld & 47.9 & 49.4 & 31.5 & 4.6 & \textbf{46.4} & 39.3 & 40.6 & -- }\\
-        \only<+->{Childsnack  & 26.2 & 35.4 & 20.2 & 0.0 & \textbf{26.5} & 22.0 & 11.0 & -- }\\
-        \only<+->{Ferry       & 64.0 & 61.5 & 64.4 & -- & 58.5 & 58.7 & 42.1 & \textbf{76.3} }\\
-        \only<+->{Floortile   & 12.0 & 22.7 & 24.7 & -- & \textbf{34.4} & 21.3 & 0.0 & -- }\\
-        \only<+->{Miconic     & 84.4 & 89.6 & 52.3 & 7.2 & \textbf{81.4} & 72.4 & 30.0 & 75.2 }\\
-        \only<+->{Rovers      & 66.8 & 64.0 & 58.1 & 6.5 & 54.4 & 60.0 & 14.2 &  \textbf{66.1} }\\
-        \only<+->{Satellite   & 87.3 & 88.7 & 71.0 & -- & 74.0 & 79.9 & 16.0 & \textbf{87.3} }\\
-        \only<+->{Sokoban     & 37.7 & 39.0 & 30.8 & 0.0 & \textbf{38.4} & 28.1 & 24.3 & 37.7 }\\
-        \only<+->{Spanner     & 30.0 & 60.7 & 30.0 & 8.9 & 30.0 & 30.0 & \textbf{32.0} & -- }\\
-        \only<+->{Transport   & 61.4 & 63.0 & 62.7 & 2.0 & \textbf{64.5} & 55.4 & 16.2 & -- }\\
-        \midrule
-        \only<+->{
-        Sum     & 517.6 & 574.1 & 445.7 & 29.1 & \textbf{508.5} & 467.0 & 226.3 & 342.6 }\\
-        %\bottomrule
-        \end{tabular}
 \end{frame}
 
 \begin{frame}{Blocksworld}
@@ -254,10 +223,8 @@
     \end{itemize}
 
 \end{frame}
-\againframe<2>{scores}
 
 \begin{frame}{Childsnack}
-
     \begin{itemize}
         \item \textbf{Description}: make $s$ sandwiches in a kitchen either with gluten or gluten-free ingredients. Deliver sandwiches on $t$ trays to the tables with $c$ children ($a$ are allergic to gluten).
         %\item[]
@@ -279,13 +246,9 @@
             \item Hard: $c\in[50, 300]$, $a\in[50, 150]$, $t\in[4, 10]$, $s\in[50, 450]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<3>{scores}
-
 
 \begin{frame}{Ferry}
-
     \begin{itemize}
         \item \textbf{Description}: $c$ cars are randomly distributed into $l$ locations, and a ferry with capacity for $1$ car must transport them to their destinations.
         \item[]
@@ -305,13 +268,9 @@
             \item Hard: $c\in[200, 1000]$, $l \in [100, 500]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<4>{scores}
-
 
 \begin{frame}{Floortile}
-
     \begin{itemize}
         \item \textbf{Description}: a grid of $x\times y$ tiles has $r$ robot painters, each in a different column, that can paint either the tile above or below with black/white color. Robots may move in $4$ directions via unpainted tiles. All tiles except the bottom row must be painted in checkerboard style.
         %\item[]
@@ -333,13 +292,10 @@
             \item Hard: $x,y \in [25,37]$, $r \in [15,35]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<5>{scores}
 
 
 \begin{frame}{Miconic}
-
     \begin{itemize}
         \item \textbf{Description}: there are $p$ passengers randomly distributed on $f$ floors; an elevator (with $\infty$ capacity) that can board passengers ``only'' from their origin floor and let them depart ``only'' at their destination; and the elevator can move between any two floors.
         %\item[]
@@ -361,13 +317,10 @@
             \item Hard: $p\in[50, 500]$, $f \in [80, 200]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<6>{scores}
 
 
 \begin{frame}{Rovers}
-
     \begin{itemize}
         \item \textbf{Description}: $r$ rovers are equipped for analyzing soil/rock and/or taking images from $o$ objectives with up to $c$ cameras (requiring calibration), which must be communicated to a lander. Each soil and rock to analyze is in one of the $w$ waypoints, and the objectives and the lander are visible from a subset of waypoints. Rovers can only navigate through a subset of waypoint edges that must be visible.
         %\item[]
@@ -388,13 +341,10 @@
             \item Hard: $r\in[15, 30]$, $w\in[100, 200]$, $c\in[60, 100]$, $o\in[100, 200]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<7>{scores}
 
 
 \begin{frame}{Satellite}
-
     \begin{itemize}
         \item \textbf{Description}: $i$ switched-off instruments are on board $s$ satellites and can take images in up to $m$ modes. Satellites point and turn to any of the $d$ directions. Only one instrument can be active at a time in a satellite, and they need to calibrate in a specific direction when they are switched on before taking images.
         %\item[]
@@ -416,13 +366,10 @@
             \item Hard: $s\in[50, 100]$, $i\in[50,200]$, $m\in[5, 10]$, $d\in[40, 100]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<8>{scores}
 
 
 \begin{frame}{Sokoban}
-
     \begin{itemize}
         \item \textbf{Description}: an agent in a $g\times g$ grid, with some locations blocked by walls, must push $b$ boxes (in any of the $4$ cardinal directions) to their goal.
         \item[]
@@ -438,13 +385,10 @@
             \item Hard: $g\in[60, 100]$, $b\in[40,80]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<9>{scores}
 
 
 \begin{frame}{Spanner}
-
     \begin{itemize}
         \item \textbf{Description}: an agent can only move forward from a shed to a gate, by crossing $l$ locations of a corridor, and collect up to $s$ spanners to tighten all $n$ loose nuts at the gate. Spanners break when they are used.
         \item[]
@@ -465,13 +409,10 @@
             \item Hard: $s\in[100,500]$, $n\in[50, 250]$, $l\in[50, 100]$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<10>{scores}
 
 
 \begin{frame}{Transport}
-
     \begin{itemize}
         \item \textbf{Description}:  $p$ packages are randomly distributed to $l$ strongly connected locations, and need to be delivered to other destination locations by using up to $v$ vehicles with $m$ maximum capacity.
         \item[]
@@ -491,26 +432,45 @@
             \item Hard: $v\in[30, 50]$, $p\in[20, 200]$, $l\in[50, 100]$, $m=10$
         \end{itemize}
     \end{itemize}
-
 \end{frame}
-\againframe<11>{scores}
+
+\begin{frame}<1>[label=scores]{Quality Scores}
+    \centering
+    \newcommand{\numtasks}[1]{}
+    \setlength{\tabcolsep}{0.5em}
+    \begin{tabular}{@{}lrrrrrrrr@{}}
+        & \multicolumn{3}{c}{Baselines} & \multicolumn{5}{c}{Competitors} \\
+        \cmidrule(r){2-4}
+        \cmidrule(l){5-9}
+         & LAMA & FDSS & SMAC & ASNets & GOFAI & HUZAR & Muninn & Vanir \\
+        \midrule
+        Blocksworld & 47.9 & 49.4 & 31.5 & 4.6 & \textbf{46.4} & 39.3 & 40.6 & -- \\
+        Childsnack  & 26.2 & 35.4 & 20.2 & 0.0 & \textbf{26.5} & 22.0 & 11.0 & -- \\
+        Ferry       & 64.0 & 61.5 & 64.4 & -- & 58.5 & 58.7 & 42.1 & \textbf{76.3} \\
+        Floortile   & 12.0 & 22.7 & 24.7 & -- & \textbf{34.4} & 21.3 & 0.0 & -- \\
+        Miconic     & 84.4 & 89.6 & 52.3 & 7.2 & \textbf{81.4} & 72.4 & 30.0 & 75.2 \\
+        Rovers      & 66.8 & 64.0 & 58.1 & 6.5 & 54.4 & 60.0 & 14.2 &  \textbf{66.1} \\
+        Satellite   & 87.3 & 88.7 & 71.0 & -- & 74.0 & 79.9 & 16.0 & \textbf{87.3} \\
+        Sokoban     & 37.7 & 39.0 & 30.8 & 0.0 & \textbf{38.4} & 28.1 & 24.3 & 37.7 \\
+        Spanner     & 30.0 & 60.7 & 30.0 & 8.9 & 30.0 & 30.0 & \textbf{32.0} & -- \\
+        Transport   & 61.4 & 63.0 & 62.7 & 2.0 & \textbf{64.5} & 55.4 & 16.2 & -- \\
+        \midrule
+        Sum     & 517.6 & 574.1 & 445.7 & 29.1 & \textbf{508.5} & 467.0 & 226.3 & 342.6 \\
+        %\bottomrule
+        \end{tabular}
+\end{frame}
 
 \begin{frame}{Winners}
-
-    \pause
 
     \begin{block}{Runner-Up}
         \alert{HUZAR} by Piotr Rafal Gzubicki, Bartosz Piotr Lachowicz and Álvaro Torralba
     \end{block}
 
-    \pause
     \bigskip
 
     \begin{block}{Winner}
         \alert{GOFAI} by Álvaro Torralba and Daniel Gnad
     \end{block}
 \end{frame}
-
-\againframe<12>{scores}
 
 \end{document}
